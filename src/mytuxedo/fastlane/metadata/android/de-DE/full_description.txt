@@ -1,8 +1,8 @@
-Die Open Source Nextcloud Android App erlaubt Ihnen Zugriff auf alle Dateien in Ihrer Nextcloud.
+Die Open Source myTUXEDO Android App erlaubt Ihnen Zugriff auf alle Dateien in Ihrer myTUXEDO.
 
 Eigenschaften:
 * Einfache, moderne Oberfläche
-* Laden Sie Ihre Dateien auf Ihren Nextcloud Server
+* Laden Sie Ihre Dateien auf Ihren myTUXEDO Server
 * Teilen Sie Ihre Dateien mit anderen
 * Wichtige Dateien und Verzeichnisse können aktuell gehalten werden
 * Suche über alle Ordner auf Ihrem Server
@@ -14,6 +14,6 @@ Eigenschaften:
 
 Bitte melden Sie alle Probleme unter https://github.com/nextcloud/android/issues oder diskutieren Sie über die App auf https://help.nextcloud.com/c/clients/android
 
-Was ist die Nextcloud? Die Nextcloud ist ein privater Dateiaustausch & -synchronisierungs Server. Nextcloud ist Open Source und kann auf einem eigenen Server installiert werden. So behalten Sie die Kontrolle über Ihre Fotos, Ihre Kalender und Kontakte, Ihre Dokumente und alle anderen Daten.
+Was ist die myTUXEDO? Die myTUXEDO ist ein privater Dateiaustausch & -synchronisierungs Server. myTUXEDO ist Open Source und kann auf einem eigenen Server installiert werden. So behalten Sie die Kontrolle über Ihre Fotos, Ihre Kalender und Kontakte, Ihre Dokumente und alle anderen Daten.
 
-Schauen Sie sich Nextcloud unter https://nextcloud.com an.
+Schauen Sie sich myTUXEDO unter https://nextcloud.com an.
