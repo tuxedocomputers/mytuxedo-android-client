@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auth_register">No myTUXEDO yet?\nClick here to get one from a provider</string>
+    <string name="uploader_upload_files_behaviour_move_to_myTUXEDO_folder">Move file to myTUXEDO folder</string>
+    <string name="file_migration_failed_dir_already_exists">myTUXEDO folder already exists</string>
+    <string name="files_drop_not_supported">This is a myTUXEDO feature, please upgrade.</string>
+    <string name="store_short_desc">The myTUXEDO Android app gives mobile access to all files on your myTUXEDO.</string>
+    <string name="store_full_desc">The copylefted libre myTUXEDO Android app, giving you mobile freedom.\n\nFeatures:\n* Easy, modern interface, suited to the theme of your server\n* Upload files to your myTUXEDO server\n* Share them with others\n* Keep your favorite files and folders synced\n* Search across all folders on your server\n* Auto Upload for photos and videos taken by your device\n* Keep up to date with notifications\n* Multi-account support\n* Secure access to your data with fingerprint or PIN\n* Integration with DAVdroid for easy setup of calendar &amp; Contacts synchronization\n\nPlease report all issues at https://github.com/myTUXEDO/android/issues and discuss this app at https://help.myTUXEDO.com/c/clients/android\n\nNew to myTUXEDO? myTUXEDO is a private file sync &amp; share and communication server. It is libre software, and you can host it yourself or pay a company to do it for you. That way, you are in control of your photos, your calendar and contact data, your documents and everything else.\n\nCheck out myTUXEDO at https://myTUXEDO.com</string>
+    <string name="store_short_dev_desc">The myTUXEDO Dev app is a development snapshot and can be installed parallel.</string>
+    <string name="store_full_dev_desc">The copylefted libre myTUXEDO Android app, gives you mobile freedom.\nThis is the official development version, featuring a daily sample of any new untested functionality, which may cause instability and data loss. The app is for users willing to test, and report bugs should they occur. Do not use it for your productive work!\n\nBoth the official dev and regular version are available on F-droid, and can be installed at the same time.</string>
+</resources>
