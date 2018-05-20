@@ -121,7 +121,7 @@
     <string name="mail_logger"></string>
 
     <!-- Determine is participate enabled -->
-    <bool name="participate_enabled">true</bool>
+    <bool name="participate_enabled">false</bool>
     <!-- Participate links -->
     <string name="fdroid_beta_link" translatable="false">https://f-droid.org/repository/browse/?fdid=de.mytuxedo.android</string>
     <string name="beta_apk_link" translatable="false">https://mytuxedo.de</string>
