@@ -6,13 +6,13 @@
 
     <!-- App name  and other strings-->
     <string name="app_name">myTUXEDO</string>
-    <string name="account_type">nextcloud</string>     <!-- better if was a domain name; but changing it now would require migrate accounts when the app is updated -->
-    <string name="authority">org.nextcloud</string>    <!-- better if was the app package with ".provider" appended ; it identifies the provider -->
-    <string name="users_and_groups_search_authority">com.nextcloud.android.providers.UsersAndGroupsSearchProvider</string>
-    <string name="users_and_groups_share_with">com.nextcloud.android.providers.UsersAndGroupsSearchProvider.action.SHARE_WITH</string>
-    <string name="document_provider_authority">org.nextcloud.documents</string>
-    <string name="file_provider_authority">org.nextcloud.files</string>
-    <string name="image_cache_provider_authority">org.nextcloud.imageCache.provider</string>
+    <string name="account_type">mytuxedo</string>     <!-- better if was a domain name; but changing it now would require migrate accounts when the app is updated -->
+    <string name="authority">de.mytuxedo.android</string>    <!-- better if was the app package with ".provider" appended ; it identifies the provider -->
+    <string name="users_and_groups_search_authority">de.mytuxedo.android.providers.UsersAndGroupsSearchProvider</string>
+    <string name="users_and_groups_share_with">de.mytuxedo.android.providers.UsersAndGroupsSearchProvider.action.SHARE_WITH</string>
+    <string name="document_provider_authority">de.mytuxedo.android.documents</string>
+    <string name="file_provider_authority">de.mytuxedo.android.files</string>
+    <string name="image_cache_provider_authority">de.mytuxedo.android.imageCache.provider</string>
     <string name="db_file">mytuxedo.db</string>
     <string name="db_name">mytuxedo</string>
     <string name="data_folder">mytuxedo</string>
@@ -46,7 +46,7 @@
     <integer name="contacts_backup_expire">-1</integer>
 
     <!-- What's new -->
-    <bool name="show_whats_new">true</bool>
+    <bool name="show_whats_new">false</bool>
     <!-- To fill if you want to show webviews instead of regular welcome views -->
     <array name="whatsnew_urls"></array>
 
@@ -96,7 +96,7 @@
     <bool name="help_enabled">true</bool>
     <string name="url_help">https://help.nextcloud.com/c/feature</string>
     <bool name="privacy_enabled">true</bool>
-    <string name="privacy_url">https://nextcloud.com/privacy</string>
+    <string name="privacy_url">https://www.tuxedocomputers.com/de/Datenschutz.tuxedo</string>
     <bool name="imprint_enabled">false</bool>
     <bool name="recommend_enabled">false</bool>
     <bool name="feedback_enabled">false</bool>
