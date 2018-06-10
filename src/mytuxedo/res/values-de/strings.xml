@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="auth_register">Sie haben noch kein myTUXEDO-Konto?\nKlicken Sie hier sich zu registrieren</string>
     <string name="uploader_upload_files_behaviour_move_to_myTUXEDO_folder">Datei in myTUXEDO Ordner verschieben</string>
     <string name="file_migration_failed_dir_already_exists">myTUXEDO-Verzeichnis existiert bereits</string>
     <string name="files_drop_not_supported">Dies ist eine myTUXEDO Funktion, bitte updaten Sie.</string>
