@@ -16,9 +16,9 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.3'
         classpath 'com.google.gms:google-services:3.0.0'
-        classpath 'org.codehaus.groovy:groovy-all:2.4.12'
-        classpath('com.dicedmelon.gradle:jacoco-android:0.1.2') {
-            exclude group: 'org.codehaus.groovy', module: 'groovy-all'
+        classpath 'org.codehaus.groovy:groovy-all:2.4.12' 
+        classpath('com.dicedmelon.gradle:jacoco-android:0.1.2') { 
+            exclude group: 'org.codehaus.groovy', module: 'groovy-all' 
         }
     }
 }
@@ -59,9 +59,9 @@ repositories {
 
 // semantic versioning for version code
 def versionMajor = 3
-def versionMinor = 1
-def versionPatch = 0
-def versionBuild = 51 // 0-49=Alpha / 50-98=RC / 99=stable
+def versionMinor = 2
+def versionPatch = 1
+def versionBuild = 99 // 0-49=Alpha / 50-98=RC / 99=stable
 
 android {
     lintOptions {
@@ -131,8 +131,8 @@ android {
             versionDev {
                 applicationId "com.nextcloud.android.beta"
                 dimension "default"
-                versionCode 20180610
-                versionName "20180610"
+                versionCode 20180526
+                versionName "20180526"
             }
         }
     }
@@ -211,10 +211,10 @@ dependencies {
     // dependencies for app building
     implementation 'com.android.support:multidex:1.0.3'
 //    implementation project('nextcloud-android-library')
-    genericImplementation "com.github.nextcloud:android-library:master-SNAPSHOT"
-    mytuxedoImplementation "com.github.nextcloud:android-library:master-SNAPSHOT"
-    gplayImplementation "com.github.nextcloud:android-library:master-SNAPSHOT"
-    versionDevImplementation 'com.github.nextcloud:android-library:master-SNAPSHOT' // use always latest master
+    genericImplementation "com.github.nextcloud:android-library:1.0.43.1"
+    gplayImplementation "com.github.nextcloud:android-library:1.0.43.1"
+    mytuxedoImplementation "com.github.nextcloud:android-library:1.0.43.1"
+    versionDevImplementation 'com.github.nextcloud:android-library:1.0.43.1' // use always latest master
     implementation "com.android.support:support-v4:${supportLibraryVersion}"
     implementation "com.android.support:design:${supportLibraryVersion}"
     implementation 'com.jakewharton:disklrucache:2.0.2'
@@ -267,7 +267,7 @@ dependencies {
     implementation 'org.jetbrains:annotations:15.0'
 
     androidTestImplementation 'tools.fastlane:screengrab:1.0.0'
-
+    
 //    jacocoAnt "org.jacoco:org.jacoco.ant:${jacocoVersion}"
 //    jacocoAgent "org.jacoco:org.jacoco.agent:${jacocoVersion}"
 //    androidJacocoAgent "org.jacoco:org.jacoco.agent:${jacocoVersion}"

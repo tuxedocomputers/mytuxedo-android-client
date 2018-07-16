@@ -136,7 +136,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     protected void createAccount(boolean mandatoryCreation) {
         AccountManager am = AccountManager.get(getApplicationContext());
-        am.addAccount(MainApp.getAccountType(this),
+        am.addAccount(MainApp.getAccountType(),
                 null,
                 null,
                 null,

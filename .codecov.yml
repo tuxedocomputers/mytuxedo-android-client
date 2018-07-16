@@ -1,5 +1,5 @@
 codecov:
-  branch: master
+  branch: stable-3.2.x
   ci:
     - drone.nextcloud.com
 
@@ -14,4 +14,5 @@ comment:
 
 ignore:
   - "src/main/res/values*/*"
-  
+  - "*.MD"
+  - "*.txt"

@@ -30,17 +30,16 @@ import android.accounts.AccountManagerFuture;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -311,7 +310,7 @@ public abstract class DrawerActivity extends ToolbarActivity implements DisplayU
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
-                    public boolean onNavigationItemSelected(final MenuItem menuItem) {
+                    public boolean onNavigationItemSelected(@NonNull final MenuItem menuItem) {
                         mDrawerLayout.closeDrawers();
                         // pending runnable will be executed after the drawer has been closed
                         pendingRunnable = new Runnable() {
@@ -616,7 +615,7 @@ public abstract class DrawerActivity extends ToolbarActivity implements DisplayU
      * updates the account list in the drawer.
      */
     public void updateAccountList() {
-        Account[] accounts = AccountManager.get(this).getAccountsByType(MainApp.getAccountType(this));
+        Account[] accounts = AccountManager.get(this).getAccountsByType(MainApp.getAccountType());
 
         ArrayList<Account> persistingAccounts = new ArrayList<>();
 
@@ -641,7 +640,7 @@ public abstract class DrawerActivity extends ToolbarActivity implements DisplayU
                     accountEndView.setTag(mAvatars[1].name);
 
                     DisplayUtils.setAvatar(mAvatars[1], this, mOtherAccountAvatarRadiusDimension, getResources(),
-                            getStorageManager(), accountEndView, this);
+                            accountEndView, this);
                     mAccountEndAccountAvatar.setVisibility(View.VISIBLE);
                 } else {
                     mAccountEndAccountAvatar.setVisibility(View.GONE);
@@ -653,7 +652,7 @@ public abstract class DrawerActivity extends ToolbarActivity implements DisplayU
                     accountMiddleView.setTag(mAvatars[2].name);
 
                     DisplayUtils.setAvatar(mAvatars[2], this, mOtherAccountAvatarRadiusDimension, getResources(),
-                            getStorageManager(), accountMiddleView, this);
+                            accountMiddleView, this);
                     mAccountMiddleAccountAvatar.setVisibility(View.VISIBLE);
                 } else {
                     mAccountMiddleAccountAvatar.setVisibility(View.GONE);
@@ -687,7 +686,7 @@ public abstract class DrawerActivity extends ToolbarActivity implements DisplayU
                             account.name)
                             .setIcon(TextDrawable.createAvatar(account.name, mMenuAccountAvatarRadiusDimension));
                     DisplayUtils.setAvatar(account, this, mMenuAccountAvatarRadiusDimension, getResources(),
-                            getStorageManager(), accountMenuItem, this);
+                            accountMenuItem, this);
                 }
             } catch (Exception e) {
                 Log_OC.e(TAG, "Error calculating RGB value for account menu item.", e);
@@ -720,17 +719,11 @@ public abstract class DrawerActivity extends ToolbarActivity implements DisplayU
     protected void updateActionBarTitleAndHomeButton(OCFile chosenFile) {
         super.updateActionBarTitleAndHomeButton(chosenFile);
 
-        // set home button properties
+        /// set home button properties
         if (mDrawerToggle != null && chosenFile != null) {
             mDrawerToggle.setDrawerIndicatorEnabled(isRoot(chosenFile));
         } else if (mDrawerToggle != null){
             mDrawerToggle.setDrawerIndicatorEnabled(false);
-        }
-
-        if (mDrawerToggle != null) {
-            DrawerArrowDrawable icon = mDrawerToggle.getDrawerArrowDrawable();
-            icon.setColorFilter(ThemeUtils.fontColor(this), PorterDuff.Mode.SRC_ATOP);
-            mDrawerToggle.setDrawerArrowDrawable(icon);
         }
     }
 
@@ -759,7 +752,7 @@ public abstract class DrawerActivity extends ToolbarActivity implements DisplayU
             currentAccountView.setTag(account.name);
 
             DisplayUtils.setAvatar(account, this, mCurrentAccountAvatarRadiusDimension, getResources(),
-                    getStorageManager(), currentAccountView, this);
+                    currentAccountView, this);
 
             // check and show quota info if available
             getAndDisplayUserQuota();
@@ -1042,6 +1035,8 @@ public abstract class DrawerActivity extends ToolbarActivity implements DisplayU
 
                 DisplayUtils.downloadIcon(this, link.iconUrl, target, R.drawable.ic_link_grey, size, size);
             }
+
+            setDrawerMenuItemChecked(mCheckedMenuItem);
         }
     }
 
@@ -1067,7 +1062,7 @@ public abstract class DrawerActivity extends ToolbarActivity implements DisplayU
                 String background = capability.getServerBackground();
                 CapabilityBooleanType backgroundDefault = capability.getServerBackgroundDefault();
                 CapabilityBooleanType backgroundPlain = capability.getServerBackgroundPlain();
-                int primaryColor = ThemeUtils.primaryColor(getAccount(), false, this);
+                int primaryColor = ThemeUtils.primaryColor(getAccount(), this);
 
                 if (backgroundDefault.isTrue() && backgroundPlain.isTrue()) {
                     // use only solid color
@@ -1281,7 +1276,7 @@ public abstract class DrawerActivity extends ToolbarActivity implements DisplayU
      */
     private void populateDrawerOwnCloudAccounts() {
         mAvatars = new Account[3];
-        Account[] accountsAll = AccountManager.get(this).getAccountsByType(MainApp.getAccountType(this));
+        Account[] accountsAll = AccountManager.get(this).getAccountsByType(MainApp.getAccountType());
 
         ArrayList<Account> persistingAccounts = new ArrayList<>();
 

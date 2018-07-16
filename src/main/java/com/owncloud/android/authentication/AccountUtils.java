@@ -97,7 +97,7 @@ public class AccountUtils {
 
     public static Account[] getAccounts(Context context) {
         AccountManager accountManager = AccountManager.get(context);
-        return accountManager.getAccountsByType(MainApp.getAccountType(context));
+        return accountManager.getAccountsByType(MainApp.getAccountType());
     }
 
     
@@ -144,7 +144,8 @@ public class AccountUtils {
      * @return owncloud account named accountName
      */
     public static Account getOwnCloudAccountByName(Context context, String accountName) {
-        Account[] ocAccounts = AccountManager.get(context).getAccountsByType(MainApp.getAccountType(context));
+        Account[] ocAccounts = AccountManager.get(context).getAccountsByType(
+                MainApp.getAccountType());
         for (Account account : ocAccounts) {
             if(account.name.equals(accountName)) {
                 return account;

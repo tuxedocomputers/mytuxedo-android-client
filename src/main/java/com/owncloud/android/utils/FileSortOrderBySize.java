@@ -24,15 +24,18 @@ import com.owncloud.android.datamodel.OCFile;
 
 import java.io.File;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Sorts files by sizes
  */
+
 public class FileSortOrderBySize extends FileSortOrder {
 
-    FileSortOrderBySize(String name, boolean ascending) {
+    public FileSortOrderBySize(String name, boolean ascending) {
         super(name, ascending);
     }
 
@@ -44,18 +47,21 @@ public class FileSortOrderBySize extends FileSortOrder {
     public List<OCFile> sortCloudFiles(List<OCFile> files) {
         final int multiplier = mAscending ? 1 : -1;
 
-        Collections.sort(files, (o1, o2) -> {
-            if (o1.isFolder() && o2.isFolder()) {
-                Long obj1 = o1.getFileLength();
-                return multiplier * obj1.compareTo(o2.getFileLength());
-            } else if (o1.isFolder()) {
-                return -1;
+        Collections.sort(files, new Comparator<OCFile>() {
+            @SuppressFBWarnings(value = "Bx")
+            public int compare(OCFile o1, OCFile o2) {
+                if (o1.isFolder() && o2.isFolder()) {
+                    Long obj1 = o1.getFileLength();
+                    return multiplier * obj1.compareTo(o2.getFileLength());
+                } else if (o1.isFolder()) {
+                    return -1;
 
-            } else if (o2.isFolder()) {
-                return 1;
-            } else {
-                Long obj1 = o1.getFileLength();
-                return multiplier * obj1.compareTo(o2.getFileLength());
+                } else if (o2.isFolder()) {
+                    return 1;
+                } else {
+                    Long obj1 = o1.getFileLength();
+                    return multiplier * obj1.compareTo(o2.getFileLength());
+                }
             }
         });
 
@@ -67,7 +73,6 @@ public class FileSortOrderBySize extends FileSortOrder {
      *
      * @param files list of files to sort
      */
-    @Override
     public List<File> sortLocalFiles(List<File> files) {
         final int multiplier = mAscending ? 1 : -1;
 

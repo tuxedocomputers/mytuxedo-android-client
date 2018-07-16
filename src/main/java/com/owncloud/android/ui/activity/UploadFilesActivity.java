@@ -21,12 +21,9 @@
 package com.owncloud.android.ui.activity;
 
 import android.accounts.Account;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -39,7 +36,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -93,6 +89,7 @@ public class UploadFilesActivity extends FileActivity implements
     private Account mAccountOnCreation;
     private DialogFragment mCurrentDialog;
     private Menu mOptionsMenu;
+    private SearchView mSearchView;
 
     public static final String EXTRA_CHOSEN_FILES =
             UploadFilesActivity.class.getCanonicalName() + ".EXTRA_CHOSEN_FILES";
@@ -192,12 +189,6 @@ public class UploadFilesActivity extends FileActivity implements
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setListNavigationCallbacks(mDirectories, this);
 
-        Drawable backArrow = getResources().getDrawable(R.drawable.ic_arrow_back);
-
-        if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(ThemeUtils.tintDrawable(backArrow, ThemeUtils.fontColor(this)));
-        }
-
         // wait dialog
         if (mCurrentDialog != null) {
             mCurrentDialog.dismiss();
@@ -237,13 +228,12 @@ public class UploadFilesActivity extends FileActivity implements
 
         int fontColor = ThemeUtils.fontColor(this);
         final MenuItem item = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-        EditText editText = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(item);
+        EditText editText = mSearchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         editText.setHintTextColor(fontColor);
         editText.setTextColor(fontColor);
-        ImageView searchClose = searchView.findViewById(android.support.v7.appcompat.R.id.search_close_btn);
+        ImageView searchClose = mSearchView.findViewById(android.support.v7.appcompat.R.id.search_close_btn);
         searchClose.setColorFilter(fontColor);
-
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -314,27 +304,43 @@ public class UploadFilesActivity extends FileActivity implements
         }
         return true;
     }
+
+    private boolean isSearchOpen() {
+        if (mSearchView == null) {
+            return false;
+        } else {
+            View mSearchEditFrame = mSearchView.findViewById(android.support.v7.appcompat.R.id.search_edit_frame);
+            return (mSearchEditFrame != null && mSearchEditFrame.getVisibility() == View.VISIBLE);
+        }
+    }
     
     @Override
     public void onBackPressed() {
-        if (mDirectories.getCount() <= 1) {
-            finish();
-            return;
-        }
-        popDirname();
-        mFileListFragment.onNavigateUp();
-        mCurrentDir = mFileListFragment.getCurrentDirectory();
-
-        if (mCurrentDir.getParentFile() == null) {
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(false);
+        if (isSearchOpen() && mSearchView != null) {
+            mSearchView.setQuery("", false);
+            mFileListFragment.onClose();
+            mSearchView.onActionViewCollapsed();
+            setDrawerIndicatorEnabled(isDrawerIndicatorAvailable());
+        } else {
+            if (mDirectories.getCount() <= 1) {
+                finish();
+                return;
             }
-        }
+            popDirname();
+            mFileListFragment.onNavigateUp();
+            mCurrentDir = mFileListFragment.getCurrentDirectory();
 
-        // invalidate checked state when navigating directories
-        if(!mLocalFolderPickerMode) {
-            setSelectAllMenuItem(mOptionsMenu.findItem(R.id.action_select_all), false);
+            if (mCurrentDir.getParentFile() == null) {
+                ActionBar actionBar = getSupportActionBar();
+                if (actionBar != null) {
+                    actionBar.setDisplayHomeAsUpEnabled(false);
+                }
+            }
+
+            // invalidate checked state when navigating directories
+            if (!mLocalFolderPickerMode) {
+                setSelectAllMenuItem(mOptionsMenu.findItem(R.id.action_select_all), false);
+            }
         }
     }
     
@@ -394,15 +400,11 @@ public class UploadFilesActivity extends FileActivity implements
             super(ctx, view);
         }
 
-        @SuppressLint("RestrictedApi")
         public @NonNull View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             View v = super.getView(position, convertView, parent);
-
-            int color = ThemeUtils.fontColor(getContext());
-            ColorStateList colorStateList = ColorStateList.valueOf(color);
-
-            ((AppCompatSpinner) parent).setSupportBackgroundTintList(colorStateList);
-            ((TextView) v).setTextColor(colorStateList);
+    
+            ((TextView) v).setTextColor(getResources().getColorStateList(
+                    android.R.color.white));
             return v;
         }
     

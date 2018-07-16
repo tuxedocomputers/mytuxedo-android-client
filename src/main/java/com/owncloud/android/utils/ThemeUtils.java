@@ -93,23 +93,14 @@ public class ThemeUtils {
     }
 
     public static int primaryColor(Context context) {
-        return primaryColor(context, false);
+        return primaryColor(null, context);
     }
 
-    public static int primaryColor(Context context, boolean replaceWhite) {
-        return primaryColor(null, replaceWhite, context);
-    }
-
-    public static int primaryColor(Account account, boolean replaceWhite, Context context) {
+    public static int primaryColor(Account account, Context context) {
         OCCapability capability = getCapability(account, context);
 
         try {
-            int color = Color.parseColor(capability.getServerColor());
-            if (replaceWhite && Color.WHITE == color) {
-                return Color.GRAY;
-            } else {
-                return color;
-            }
+            return Color.parseColor(capability.getServerColor());
         } catch (Exception e) {
             return context.getResources().getColor(R.color.primary);
         }
@@ -181,7 +172,7 @@ public class ThemeUtils {
      * @param actionBar actionBar to be used
      * @param title     title to be shown
      */
-    public static void setColoredTitle(@Nullable ActionBar actionBar, String title, Context context) {
+    public static void setColoredTitle(ActionBar actionBar, String title, Context context) {
         if (actionBar != null) {
             if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.KITKAT) {
                 actionBar.setTitle(title);
@@ -203,15 +194,13 @@ public class ThemeUtils {
      * @param actionBar actionBar to be used
      * @param titleId   title to be shown
      */
-    public static void setColoredTitle(@Nullable ActionBar actionBar, int titleId, Context context) {
-        if (actionBar != null) {
-            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.KITKAT) {
-                actionBar.setTitle(titleId);
-            } else {
-                String colorHex = colorToHexString(fontColor(context));
-                String title = context.getString(titleId);
-                actionBar.setTitle(Html.fromHtml("<font color='" + colorHex + "'>" + title + "</font>"));
-            }
+    public static void setColoredTitle(ActionBar actionBar, int titleId, Context context) {
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.KITKAT) {
+            actionBar.setTitle(titleId);
+        } else {
+            String colorHex = colorToHexString(fontColor(context));
+            String title = context.getString(titleId);
+            actionBar.setTitle(Html.fromHtml("<font color='" + colorHex + "'>" + title + "</font>"));
         }
     }
 
@@ -235,7 +224,7 @@ public class ThemeUtils {
      * Adjust lightness of given color
      *
      * @param lightnessDelta values -1..+1
-     * @param color
+     * @param color original color
      * @param threshold      0..1 as maximum value, -1 to disable
      * @return color adjusted by lightness
      */
@@ -372,15 +361,16 @@ public class ThemeUtils {
         return tintDrawable(drawable, color);
     }
 
+    @Nullable
     public static Drawable tintDrawable(Drawable drawable, int color) {
         if (drawable != null) {
             Drawable wrap = DrawableCompat.wrap(drawable);
             wrap.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
             return wrap;
-        } else {
-            return drawable;
         }
+
+        return null;
     }
 
     public static String colorToHexString(int color) {

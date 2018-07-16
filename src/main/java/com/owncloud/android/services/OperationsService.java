@@ -176,7 +176,7 @@ public class OperationsService extends Service {
 
         // WIP: for the moment, only SYNC_FOLDER is expected here;
         // the rest of the operations are requested through the Binder
-        if (ACTION_SYNC_FOLDER.equals(intent.getAction())) {
+        if (intent != null && ACTION_SYNC_FOLDER.equals(intent.getAction())) {
 
             if (!intent.hasExtra(EXTRA_ACCOUNT) || !intent.hasExtra(EXTRA_REMOTE_PATH)) {
                 Log_OC.e(TAG, "Not enough information provided in intent");
@@ -212,7 +212,7 @@ public class OperationsService extends Service {
         // Saving cookies
         try {
             OwnCloudClientManagerFactory.getDefaultSingleton().
-                    saveAllClients(this, MainApp.getAccountType(getApplicationContext()));
+                    saveAllClients(this, MainApp.getAccountType());
 
             // TODO - get rid of these exceptions
         } catch (AccountNotFoundException | IOException | OperationCanceledException | AuthenticatorException e) {
@@ -590,6 +590,8 @@ public class OperationsService extends Service {
                         ((UpdateSharePermissionsOperation)operation).setPermissions(permissions);
                         long expirationDateInMillis = operationIntent.getLongExtra(EXTRA_SHARE_EXPIRATION_DATE_IN_MILLIS, 0L);
                         ((UpdateSharePermissionsOperation)operation).setExpirationDate(expirationDateInMillis);
+                        String password = operationIntent.getStringExtra(EXTRA_SHARE_PASSWORD);
+                        ((UpdateSharePermissionsOperation)operation).setPassword(password);
                     }
 
                 } else if (action.equals(ACTION_CREATE_SHARE_WITH_SHAREE)) {

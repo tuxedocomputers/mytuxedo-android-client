@@ -24,7 +24,6 @@ package com.owncloud.android.ui.activity;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -266,7 +265,6 @@ public class WhatsNewActivity extends FragmentActivity implements ViewPager.OnPa
             mWebUrl = getArguments() != null ? getArguments().getString("url") : null;
         }
 
-        @SuppressLint("SetJavaScriptEnabled")
         @Nullable
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, 

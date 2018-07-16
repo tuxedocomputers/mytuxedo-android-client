@@ -95,7 +95,7 @@ public class FileDownloader extends Service
     private Account mCurrentAccount = null;
     private FileDataStorageManager mStorageManager;
 
-    private IndexedForest<DownloadFileOperation> mPendingDownloads = new IndexedForest<>();
+    private IndexedForest<DownloadFileOperation> mPendingDownloads = new IndexedForest<DownloadFileOperation>();
 
     private DownloadFileOperation mCurrentDownload = null;
 
@@ -132,7 +132,7 @@ public class FileDownloader extends Service
                 .setContentText(getApplicationContext().getResources().getString(R.string.foreground_service_download))
                 .setSmallIcon(R.drawable.notification_icon)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.notification_icon))
-                .setColor(ThemeUtils.primaryColor(getApplicationContext(), true));
+                .setColor(ThemeUtils.primaryColor(getApplicationContext()));
 
         if ((android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)) {
             builder.setChannelId(NotificationUtils.NOTIFICATION_CHANNEL_DOWNLOAD);
@@ -597,7 +597,6 @@ public class FileDownloader extends Service
         if (mNotificationManager != null) {
             mNotificationManager.cancel(R.string.downloader_download_in_progress_ticker);
         }
-
         if (!downloadResult.isCancelled()) {
             int tickerId = (downloadResult.isSuccess()) ? R.string.downloader_download_succeeded_ticker :
                     R.string.downloader_download_failed_ticker;
@@ -614,8 +613,20 @@ public class FileDownloader extends Service
                     .setProgress(0, 0, false);
 
             if (needsToUpdateCredentials) {
-                configureUpdateCredentialsNotification(download.getAccount());
 
+                // let the user update credentials with one click
+                Intent updateAccountCredentials = new Intent(this, AuthenticatorActivity.class);
+                updateAccountCredentials.putExtra(AuthenticatorActivity.EXTRA_ACCOUNT,
+                        download.getAccount());
+                updateAccountCredentials.putExtra(
+                        AuthenticatorActivity.EXTRA_ACTION,
+                        AuthenticatorActivity.ACTION_UPDATE_EXPIRED_TOKEN
+                );
+                updateAccountCredentials.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                updateAccountCredentials.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                updateAccountCredentials.addFlags(Intent.FLAG_FROM_BACKGROUND);
+                mNotificationBuilder.setContentIntent(PendingIntent.getActivity(this, (int) System.currentTimeMillis(),
+                        updateAccountCredentials, PendingIntent.FLAG_ONE_SHOT));
             } else {
                 // TODO put something smart in showDetailsIntent
                 Intent showDetailsIntent = new Intent();
@@ -637,21 +648,6 @@ public class FileDownloader extends Service
                 }
             }
         }
-    }
-
-    private void configureUpdateCredentialsNotification(Account account) {
-        // let the user update credentials with one click
-        Intent updateAccountCredentials = new Intent(this, AuthenticatorActivity.class);
-        updateAccountCredentials.putExtra(AuthenticatorActivity.EXTRA_ACCOUNT, account);
-        updateAccountCredentials.putExtra(
-                AuthenticatorActivity.EXTRA_ACTION,
-                AuthenticatorActivity.ACTION_UPDATE_EXPIRED_TOKEN
-        );
-        updateAccountCredentials.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        updateAccountCredentials.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-        updateAccountCredentials.addFlags(Intent.FLAG_FROM_BACKGROUND);
-        mNotificationBuilder.setContentIntent(PendingIntent.getActivity(this, (int) System.currentTimeMillis(),
-                updateAccountCredentials, PendingIntent.FLAG_ONE_SHOT));
     }
 
 

@@ -83,7 +83,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         final Bundle bundle = new Bundle();
         
         AccountManager accountManager = AccountManager.get(mContext);
-        Account[] accounts = accountManager.getAccountsByType(MainApp.getAccountType(mContext));
+        Account[] accounts = accountManager.getAccountsByType(MainApp.getAccountType());
         
         if (mContext.getResources().getBoolean(R.bool.multiaccount_support) || accounts.length < 1) {
             try {
@@ -169,7 +169,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         /// check if required token is stored
         final AccountManager am = AccountManager.get(mContext);
         String accessToken;
-        if (authTokenType.equals(AccountTypeUtils.getAuthTokenTypePass(MainApp.getAccountType(mContext)))) {
+        if (authTokenType.equals(AccountTypeUtils.getAuthTokenTypePass(MainApp.getAccountType()))) {
             accessToken = am.getPassword(account);
         } else {
             accessToken = am.peekAuthToken(account, authTokenType);
@@ -177,7 +177,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         if (accessToken != null) {
             final Bundle result = new Bundle();
             result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
-            result.putString(AccountManager.KEY_ACCOUNT_TYPE, MainApp.getAccountType(mContext));
+            result.putString(AccountManager.KEY_ACCOUNT_TYPE, MainApp.getAccountType());
             result.putString(AccountManager.KEY_AUTHTOKEN, accessToken);
             return result;
         }
@@ -239,19 +239,17 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
     }
 
     private void validateAccountType(String type) throws UnsupportedAccountTypeException {
-        if (!type.equals(MainApp.getAccountType(mContext))) {
+        if (!type.equals(MainApp.getAccountType())) {
             throw new UnsupportedAccountTypeException();
         }
     }
 
     private void validateAuthTokenType(String authTokenType) throws UnsupportedAuthTokenTypeException {
-        String accountType = MainApp.getAccountType(mContext);
-
-        if (!authTokenType.equals(accountType) &&
-                !authTokenType.equals(AccountTypeUtils.getAuthTokenTypePass(accountType)) &&
-                !authTokenType.equals(AccountTypeUtils.getAuthTokenTypeAccessToken(accountType)) &&
-                !authTokenType.equals(AccountTypeUtils.getAuthTokenTypeRefreshToken(accountType)) &&
-                !authTokenType.equals(AccountTypeUtils.getAuthTokenTypeSamlSessionCookie(accountType))) {
+        if (!authTokenType.equals(MainApp.getAuthTokenType()) &&
+            !authTokenType.equals(AccountTypeUtils.getAuthTokenTypePass(MainApp.getAccountType())) &&
+            !authTokenType.equals(AccountTypeUtils.getAuthTokenTypeAccessToken(MainApp.getAccountType())) &&
+            !authTokenType.equals(AccountTypeUtils.getAuthTokenTypeRefreshToken(MainApp.getAccountType())) &&
+            !authTokenType.equals(AccountTypeUtils.getAuthTokenTypeSamlSessionCookie(MainApp.getAccountType()))) {
             throw new UnsupportedAuthTokenTypeException();
         }
     }

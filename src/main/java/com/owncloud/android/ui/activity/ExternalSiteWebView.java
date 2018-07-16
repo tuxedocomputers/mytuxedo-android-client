@@ -21,7 +21,6 @@
 
 package com.owncloud.android.ui.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -45,6 +44,7 @@ import java.io.InputStream;
 /**
  * This activity shows an URL as a web view
  */
+
 public class ExternalSiteWebView extends FileActivity {
     public static final String EXTRA_TITLE = "TITLE";
     public static final String EXTRA_URL = "URL";
@@ -57,7 +57,6 @@ public class ExternalSiteWebView extends FileActivity {
     private int menuItemId;
     private WebView webview;
 
-    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log_OC.v(TAG, "onCreate() start");
@@ -74,7 +73,7 @@ public class ExternalSiteWebView extends FileActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.externalsite_webview);
 
-        webview = findViewById(R.id.webView);
+        webview = (WebView) findViewById(R.id.webView);
         final WebSettings webSettings = webview.getSettings();
 
         webview.setFocusable(true);
@@ -94,7 +93,12 @@ public class ExternalSiteWebView extends FileActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             ThemeUtils.setColoredTitle(actionBar, title, this);
-            actionBar.setDisplayHomeAsUpEnabled(true);
+
+            if (showSidebar) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            } else {
+                setDrawerIndicatorEnabled(false);
+            }
         }
 
         // enable zoom
@@ -120,7 +124,7 @@ public class ExternalSiteWebView extends FileActivity {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
 
-        final ProgressBar progressBar = findViewById(R.id.progressBar);
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         webview.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
@@ -154,8 +158,7 @@ public class ExternalSiteWebView extends FileActivity {
                         openDrawer();
                     }
                 } else {
-                    Intent settingsIntent = new Intent(getApplicationContext(), Preferences.class);
-                    startActivity(settingsIntent);
+                    finish();
                 }
             retval = true;
             break;

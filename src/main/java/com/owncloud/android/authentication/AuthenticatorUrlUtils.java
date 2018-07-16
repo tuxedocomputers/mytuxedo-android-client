@@ -21,8 +21,6 @@
 
 package com.owncloud.android.authentication;
 
-import android.content.Context;
-
 import com.owncloud.android.MainApp;
 import com.owncloud.android.lib.common.accounts.AccountTypeUtils;
 import com.owncloud.android.lib.resources.status.OwnCloudVersion;
@@ -51,13 +49,12 @@ public abstract class AuthenticatorUrlUtils {
      * @return                  WebDAV path for given OC version and authorization method, null if OC version
      *                          is unknown; versions prior to ownCloud 4 are not supported anymore
      */
-    public static String getWebdavPath(OwnCloudVersion version, String authTokenType, Context context) {
+    public static String getWebdavPath(OwnCloudVersion version, String authTokenType) {
         if (version != null) {
-            String accountType = MainApp.getAccountType(context);
-            if (AccountTypeUtils.getAuthTokenTypeAccessToken(accountType).equals(authTokenType)) {
+            if (AccountTypeUtils.getAuthTokenTypeAccessToken(MainApp.getAccountType()).equals(authTokenType)) {
                 return ODAV_PATH;
             }
-            if (AccountTypeUtils.getAuthTokenTypeSamlSessionCookie(accountType).equals(authTokenType)) {
+            if (AccountTypeUtils.getAuthTokenTypeSamlSessionCookie(MainApp.getAccountType()).equals(authTokenType)) {
                 return SAML_SSO_PATH;
             }
 
